@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode
-public class Doctor {
+public class Client {
 
     @Id
     private Long id;
