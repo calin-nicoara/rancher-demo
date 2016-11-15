@@ -1,0 +1,12 @@
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-brand">What's up doc?</div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
+      <ul class="nav navbar-nav">
+        <li ng-class=" {'active': navCtrl.getLink() === '/clients'}"><a ui-sref="clients" href="">Clients</a></li>
+        <li ng-class=" {'active': navCtrl.getLink() === '/doctors'}"><a ui-sref="doctors" href="">Doctors</a></li>
+        <li ng-class=" {'active': navCtrl.getLink() === '/schedules'}"><a ui-sref="schedules" href="">Schedules</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

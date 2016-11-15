@@ -41,7 +41,7 @@
       title: 'Doctors List'
     });
 
-    $stateProvider.state('schedule', {
+    $stateProvider.state('schedules', {
       url: '/schedules',
       templateUrl: 'views/schedules.html',
       controller: 'SchedulesController',
@@ -50,20 +50,45 @@
     });
   }
 
+  angular.module('app').directive('customNavBar', navbarDirective);
+
+  function navbarDirective() {
+    return {
+      restrict: 'E',
+      templateUrl: 'views/directives/navBar.html',
+      controller: navbarController,
+      controllerAs: 'navCtrl'
+    };
+
+    function navbarController($state) {
+      var vm = this;
+
+      vm.getLink = getLink;
+
+      function getLink() {
+        return $state.current.url;
+      }
+
+      return vm;
+    }
+  }
+
   angular.module('app').controller('ClientsController', function(clientService) {
     var vm = this;
-    clientService.getClients()
-      .then(function(data) {
-        console.log(data);
-      });
+
+    return vm;
   });
 
   angular.module('app').controller('DoctorsController', function() {
+    var vm = this;
 
+    return vm;
   });
 
   angular.module('app').controller('SchedulesController', function() {
+    var vm = this;
 
+    return vm;
   });
 
   angular.module('app').factory('clientService', function($http) {
