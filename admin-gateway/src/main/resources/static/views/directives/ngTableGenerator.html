@@ -1,0 +1,19 @@
+<div class="data-loading-bar" ng-show="busy">
+</div>
+<table ng-show="!busy && hasElements" ng-table-dynamic="tableParams with columns"
+       class="table table-bordered" ng-class="{'table-hover': !isSelectable}"
+       show-filter="isFilterable">
+
+  <tr ng-repeat="item in $data" ng-class="[getCustomRowClass(item), {'table-row-selected': item.$selected}]">
+
+    <td  ng-repeat="col in $columns" class="grid-center-align"
+         compile="col.getValue(item)">
+    </td>
+
+  </tr>
+
+</table>
+
+<div ng-show="!busy && !hasElements" class="noItemsText">
+You don't have items yet
+</div>

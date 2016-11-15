@@ -73,20 +73,51 @@
     }
   }
 
-  angular.module('app').controller('ClientsController', function(clientService) {
+  angular.module('app').controller('ClientsController', function(clientService, $q) {
     var vm = this;
 
-    return vm;
-  });
+    vm.modelSave = {};
 
-  angular.module('app').controller('DoctorsController', function() {
-    var vm = this;
+    vm.columns = [
+      {
+        title: 'Full name',
+        field: 'fullName'
+      },
+      {
+        title: 'Birth Date',
+        field: 'birthDate'
+      }
+    ];
 
-    return vm;
-  });
+    var resetTable = function() {
+      clientService.getClients().then(function(data) {
+        vm.data = data['_embedded']['clients'];
+      });
+    };
 
-  angular.module('app').controller('SchedulesController', function() {
-    var vm = this;
+    resetTable();
+
+    vm.isClientFormVisible = false;
+
+    vm.toggleClientForm = function() {
+      vm.isClientFormVisible = !vm.isClientFormVisible;
+    };
+
+    vm.addClient = function(saveModel){
+      clientService.saveClient(saveModel)
+        .then(function() {
+          resetTable();
+          vm.isClientFormVisible = false;
+          vm.modelSave = {};
+        });
+    };
+
+    vm.deleteClient = function(client) {
+      clientService.deleteItem(client['_links']['self']['href'])
+        .then(function() {
+          resetTable();
+        });
+    };
 
     return vm;
   });
@@ -110,7 +141,28 @@
       return makeCall('GET', 'api/client/clients');
     };
 
+    service.saveClient = function(saveModel) {
+      return makeCall('POST', 'api/client/clients', saveModel);
+    };
+
+    service.deleteItem = function(link) {
+      return makeCall('DELETE', link);
+    };
+
     return service;
-  })
+  });
+
+  angular.module('app').controller('DoctorsController', function() {
+    var vm = this;
+
+    return vm;
+  });
+
+  angular.module('app').controller('SchedulesController', function() {
+    var vm = this;
+
+    return vm;
+  });
+
 
 }(angular));

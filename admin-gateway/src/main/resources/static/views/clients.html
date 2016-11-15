@@ -1,3 +1,39 @@
 <div>
-  CLients
+  <h1>Clients</h1>
+
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Full Name</th>
+        <th>Birthdate</th>
+        <th>Delete Client</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in clientsCtrl.data">
+        <td>{{item.fullName}}</td>
+        <td>{{item.birthDate}}</td>
+        <td><button class="btn btn-danger" ng-click="clientsCtrl.deleteClient(item)">Delete</button></td>
+      </tr>
+    </tbody>
+
+
+  </table>
+
+  <button class="btn btn-primary" ng-click="clientsCtrl.toggleClientForm()">Add Client</button>
+
+
+  <form id="createClient" ng-if="clientsCtrl.isClientFormVisible">
+    <div class="form-group">
+      <label>Full Name</label>
+      <input ng-model="clientsCtrl.modelSave.fullName" class="form-control" type="text" placeholder="Full Name">
+    </div>
+    <div class="form-group">
+      <label>Birthdate</label>
+      <input ng-model="clientsCtrl.modelSave.birthDate" class="form-control" type="text" placeholder="Birthdate">
+    </div>
+
+    <button class="btn btn-primary" ng-click="clientsCtrl.addClient(clientsCtrl.modelSave)">Submit Client</button>
+  </form>
 </div>
