@@ -1,9 +1,13 @@
 package ro.nicoaracalin.rancherdemo.entities;
 
-import lombok.*;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 
 @Entity
@@ -12,7 +16,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode
-public class Schedule {
+public class Appointment {
 
     @Id
     private Long id;
