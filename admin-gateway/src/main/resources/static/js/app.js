@@ -210,10 +210,18 @@
   });
 
 
-  angular.module('app').controller('SchedulesController', function(scheduleService) {
+  angular.module('app').controller('SchedulesController', function(scheduleService, doctorService, clientService) {
     var vm = this;
 
     vm.modelSave = {};
+
+    doctorService.getDoctors().then(function(data) {
+      vm.doctors = data['_embedded']['doctors'];
+    });
+
+    clientService.getClients().then(function(data) {
+      vm.clients = data['_embedded']['clients'];
+    });
 
     var resetTable = function() {
       scheduleService.getAppointments().then(function(data) {
@@ -230,8 +238,6 @@
     };
 
     vm.addAppointment = function(saveModel){
-      saveModel.clientLink = "/api/client/clients/2";
-      saveModel.doctorLink = "/api/doctor/doctors/1";
       scheduleService.saveAppointment(saveModel)
         .then(function() {
           resetTable();

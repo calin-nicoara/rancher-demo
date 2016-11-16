@@ -28,6 +28,14 @@
     <div class="form-group">
       <label>Appointment Name</label>
       <input ng-model="schedulesCtrl.modelSave.name" class="form-control" type="text" placeholder="Full Name">
+      <label>Client</label>
+      <select ng-model="schedulesCtrl.modelSave.clientLink" class="form-control">
+        <option ng-repeat="client in schedulesCtrl.clients" ng-value="client['_links']['self']['href']">{{client.fullName}}</option>
+      </select>
+      <label>Doctor</label>
+      <select ng-model="schedulesCtrl.modelSave.doctorLink" class="form-control">
+        <option ng-repeat="doctor in schedulesCtrl.doctors" ng-value="doctor['_links']['self']['href']">{{doctor.fullName}}</option>
+      </select>
     </div>
 
     <button class="btn btn-primary" ng-click="schedulesCtrl.addAppointment(schedulesCtrl.modelSave)">Submit Appointment</button>
