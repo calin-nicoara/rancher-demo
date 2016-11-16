@@ -210,10 +210,63 @@
   });
 
 
-  angular.module('app').controller('SchedulesController', function() {
+  angular.module('app').controller('SchedulesController', function(scheduleService) {
     var vm = this;
 
+    vm.modelSave = {};
+
+    var resetTable = function() {
+      scheduleService.getAppointments().then(function(data) {
+        vm.data = data;
+      });
+    };
+
+    resetTable();
+
+    vm.isAppointmentFormVisible = false;
+
+    vm.toggleAppointmentForm = function() {
+      vm.isAppointmentFormVisible = !vm.isAppointmentFormVisible;
+    };
+
+    vm.addAppointment = function(saveModel){
+      saveModel.clientLink = "/api/client/clients/2";
+      saveModel.doctorLink = "/api/doctor/doctors/1";
+      scheduleService.saveAppointment(saveModel)
+        .then(function() {
+          resetTable();
+          vm.isAppointmentFormVisible = false;
+          vm.modelSave = {};
+        });
+    };
+
     return vm;
+  });
+
+  angular.module('app').factory('scheduleService', function($http) {
+    var service = {};
+
+    var makeCall = function (verb, url, data, params) {
+      return $http({
+                     method: verb,
+                     data: data,
+                     url: url,
+                     params: params
+                   })
+        .then(function (reply) {
+          return reply.data;
+        });
+    };
+
+    service.getAppointments = function() {
+      return makeCall('GET', 'api/scheduling/appointments');
+    };
+
+    service.saveAppointment = function(saveModel) {
+      return makeCall('POST', 'api/scheduling/appointments', saveModel);
+    };
+
+    return service;
   });
 
 

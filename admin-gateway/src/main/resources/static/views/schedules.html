@@ -1,8 +1,35 @@
 <div>
-  <h1>Schedules</h1>
+  <h1>Appointments</h1>
 
-  <ng-table-generator columns="vm.columns"
-                      service-get-data="vm.getData(page, size, filter)"
-                      is-pageable="false">
-  </ng-table-generator>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Appointment name</th>
+      <th>Client full name</th>
+      <th>Doctor Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in schedulesCtrl.data">
+      <td>{{item.name}}</td>
+      <td>{{item.clientName}}</td>
+      <td>{{item.doctorName}}</td>
+    </tr>
+    </tbody>
+
+
+  </table>
+
+  <button class="btn btn-primary" ng-click="schedulesCtrl.toggleAppointmentForm()">Add Appointment</button>
+
+
+  <form id="createAppointment" ng-if="schedulesCtrl.isAppointmentFormVisible">
+    <div class="form-group">
+      <label>Appointment Name</label>
+      <input ng-model="schedulesCtrl.modelSave.name" class="form-control" type="text" placeholder="Full Name">
+    </div>
+
+    <button class="btn btn-primary" ng-click="schedulesCtrl.addAppointment(schedulesCtrl.modelSave)">Submit Appointment</button>
+  </form>
 </div>
