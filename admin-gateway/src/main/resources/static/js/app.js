@@ -78,17 +78,6 @@
 
     vm.modelSave = {};
 
-    vm.columns = [
-      {
-        title: 'Full name',
-        field: 'fullName'
-      },
-      {
-        title: 'Birth Date',
-        field: 'birthDate'
-      }
-    ];
-
     var resetTable = function() {
       clientService.getClients().then(function(data) {
         vm.data = data['_embedded']['clients'];
@@ -152,11 +141,74 @@
     return service;
   });
 
-  angular.module('app').controller('DoctorsController', function() {
+  angular.module('app').controller('DoctorsController', function(doctorService) {
     var vm = this;
+
+    vm.modelSave = {};
+
+    var resetTable = function() {
+      doctorService.getDoctors().then(function(data) {
+        vm.data = data['_embedded']['doctors'];
+      });
+    };
+
+    resetTable();
+
+    vm.isDoctorFormVisible = false;
+
+    vm.toggleDoctorForm = function() {
+      vm.isDoctorFormVisible = !vm.isDoctorFormVisible;
+    };
+
+    vm.addDoctor = function(saveModel){
+      doctorService.saveDoctor(saveModel)
+        .then(function() {
+          resetTable();
+          vm.isDoctorFormVisible = false;
+          vm.modelSave = {};
+        });
+    };
+
+    vm.deleteDoctor = function(doctor) {
+      doctorService.deleteItem(doctor['_links']['self']['href'])
+        .then(function() {
+          resetTable();
+        });
+    };
 
     return vm;
   });
+
+  angular.module('app').factory('doctorService', function($http) {
+    var service = {};
+
+    var makeCall = function (verb, url, data, params) {
+      return $http({
+                     method: verb,
+                     data: data,
+                     url: url,
+                     params: params
+                   })
+        .then(function (reply) {
+          return reply.data;
+        });
+    };
+
+    service.getDoctors = function() {
+      return makeCall('GET', 'api/doctor/doctors');
+    };
+
+    service.saveDoctor = function(saveModel) {
+      return makeCall('POST', 'api/doctor/doctors', saveModel);
+    };
+
+    service.deleteItem = function(link) {
+      return makeCall('DELETE', link);
+    };
+
+    return service;
+  });
+
 
   angular.module('app').controller('SchedulesController', function() {
     var vm = this;

@@ -1,8 +1,39 @@
 <div>
-  <h1>Doctors</h1>
+  <h1>Clients</h1>
 
-  <ng-table-generator columns="vm.columns"
-                      service-get-data="vm.getData(page, size, filter)"
-                      is-pageable="false">
-  </ng-table-generator>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Full Name</th>
+      <th>Speciality</th>
+      <th>Delete Client</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in doctorsCtrl.data">
+      <td>{{item.fullName}}</td>
+      <td>{{item.speciality}}</td>
+      <td><button class="btn btn-danger" ng-click="doctorsCtrl.deleteDoctor(item)">Delete</button></td>
+    </tr>
+    </tbody>
+
+
+  </table>
+
+  <button class="btn btn-primary" ng-click="doctorsCtrl.toggleDoctorForm()">Add Doctor</button>
+
+
+  <form id="createDoctor" ng-if="doctorsCtrl.isDoctorFormVisible">
+    <div class="form-group">
+      <label>Full Name</label>
+      <input ng-model="doctorsCtrl.modelSave.fullName" class="form-control" type="text" placeholder="Full Name">
+    </div>
+    <div class="form-group">
+      <label>Speciality</label>
+      <input ng-model="doctorsCtrl.modelSave.speciality" class="form-control" type="text" placeholder="Speciality">
+    </div>
+
+    <button class="btn btn-primary" ng-click="doctorsCtrl.addDoctor(doctorsCtrl.modelSave)">Submit Doctor</button>
+  </form>
 </div>
